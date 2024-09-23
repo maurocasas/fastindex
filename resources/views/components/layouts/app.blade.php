@@ -74,7 +74,7 @@
         </div>
         <div class="flex items-center space-x-4 text-sm text-slate-400">
             <span>Powered by FastIndex</span>
-            <a href="https://github.com/maurocasas/indexcoach" target="_blank" class="hover:text-slate-800">
+            <a href="https://github.com/maurocasas/fastindex" target="_blank" class="hover:text-slate-800">
                 <x-phosphor.icons::regular.github-logo class="size-5"/>
             </a>
             <a href="https://twitter.com/maurohouseless" target="_blank" class="hover:text-slate-800">
