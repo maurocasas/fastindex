@@ -6,7 +6,8 @@ Spin up a VPS and install FastIndex within a few minutes, get a complete indexin
 
 ### Looking for a managed version?
 
-Contact me on X [https://x.com/maurohouseless](https://x.com/maurohouseless), I will deploy a version in my network.
+Contact me on X [https://x.com/maurohouseless](https://x.com/maurohouseless), I will deploy a managed version. 
+
 Launching Cloud version soon.
 
 ----------------------------------------------------------------------------------------------------
