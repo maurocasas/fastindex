@@ -9,7 +9,7 @@ class Logout extends Component
     public function exit()
     {
         auth()->logout();
-        $this->redirectRoute('landing');
+        $this->redirectRoute('login');
 
     }
 
