@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -52,7 +52,9 @@ class User extends Authenticatable
         parent::boot();
 
         self::creating(function (User $user) {
-            $user->role = UserRole::MEMBER;
+            if(blank($user->role)) {
+                $user->role = UserRole::MEMBER;
+            }
         });
     }
 
