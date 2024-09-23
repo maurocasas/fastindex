@@ -96,3 +96,19 @@ FastIndex has been built using Laravel, Livewire and Tailwind.
 11. Go to `Settings > Users and permissions`
 12. Click `Add User` and paste your `Client ID` as e-mail, grant `Owner`
 13. Navigate to `FastIndex > Sites` and click `Sync sites`
+
+----------------------------------------------------------------------------------------------------
+
+### Roadmap
+
+1. Video tutorials
+2. Installation guide
+3. Documentation site
+4. Landing page
+5. Managed version
+6. Email reports
+7. Bulk de-indexing
+8. Manual indexing requests
+9. More search engines
+10. Slack integration
+11. Telegram integration
