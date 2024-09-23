@@ -6,7 +6,8 @@ Spin up a VPS and install FastIndex within a few minutes, get a complete indexin
 
 ### Looking for a managed version?
 
-Visit [https://fastindex.app/cloud](https://fastindex.app/cloud) and subscribe to get a fully managed installation without hassling with servers or configurations.
+Contact me on X [https://x.com/maurohouseless](https://x.com/maurohouseless), I will deploy a version in my network.
+Launching Cloud version soon.
 
 ----------------------------------------------------------------------------------------------------
 
