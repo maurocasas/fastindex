@@ -1,11 +1,22 @@
 # FastIndex
 
 FastIndex is a must-have for SEO marketers who want to have their pages indexed faster by Google Search Console.
-Spin up a VPS and install FastIndex within a minutes, get a complete indexing toolkit entirely free.
+
+Spin up a VPS and install FastIndex within a few minutes, get a complete indexing toolkit entirely free.
 
 ### Looking for a managed version?
 
 Visit [https://fastindex.app/cloud](https://fastindex.app/cloud) and subscribe to get a fully managed installation without hassling with servers or configurations.
+
+----------------------------------------------------------------------------------------------------
+
+### Paid Alternatives
+
+1. FastIndex is an alternative to IndexWhale
+2. FastIndex is an alternative to TagParrot
+3. FastIndex is an alternative to IndexRusher
+4. FastIndex is an alternative to URLMonitor
+5. FastIndex is an alternative to WarpIndex
 
 ----------------------------------------------------------------------------------------------------
 
