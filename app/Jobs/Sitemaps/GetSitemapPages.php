@@ -24,7 +24,7 @@ class GetSitemapPages implements ShouldQueue
         $response = Http::get($this->sitemap->url);
 
         if ($response->failed()) {
-            $this->sitemap->alert('Unreachable sitemap URL.', AlertType::ERROR);
+            $this->fail('Sitemap not reachable');
             return;
         }
 
@@ -35,10 +35,9 @@ class GetSitemapPages implements ShouldQueue
             $path = Str::after($url, $this->sitemap->site->hostname);
 
             $this->sitemap->pages()->updateOrCreate(compact('url'), [
-                ... compact('url'),
-                'path' => blank($path) ? '/' : $path
+                ...compact('url'),
+                'path' => blank($path) ? '/' : $path,
             ]);
         }
     }
-
 }

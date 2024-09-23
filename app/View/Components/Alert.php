@@ -14,7 +14,7 @@ class Alert extends Component
      */
     public function __construct(public string|AlertType $type = 'info')
     {
-        if(!$this->type instanceof AlertType) {
+        if (! $this->type instanceof AlertType) {
             $this->type = AlertType::tryFrom($this->type)->value;
         }
     }

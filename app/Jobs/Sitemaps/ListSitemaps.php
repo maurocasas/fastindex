@@ -3,7 +3,6 @@
 namespace App\Jobs\Sitemaps;
 
 use App\Events\Sitemaps\Synced;
-use App\Models\ServiceAccount;
 use App\Models\Site;
 use App\Models\Sitemap;
 use App\Services\GoogleClientFactory;
@@ -43,7 +42,7 @@ class ListSitemaps implements ShouldQueue
                     'pending' => $sitemapItem->getIsPending(),
                     'warnings' => $sitemapItem->getWarnings(),
                     'errors' => $sitemapItem->getErrors(),
-                    'content' => $sitemapItem->getContents()
+                    'content' => $sitemapItem->getContents(),
                 ]);
 
                 /** @var Webmasters\WmxSitemapContent $content */
@@ -56,8 +55,8 @@ class ListSitemaps implements ShouldQueue
                     'pending' => $sitemapItem->getIsPending(),
                     'warnings' => $sitemapItem->getWarnings(),
                     'errors' => $sitemapItem->getErrors(),
-                    'submitted' => collect($content)->map(fn($item) => $item->getSubmitted())->sum(),
-                    'indexed' => collect($content)->map(fn($item) => $item->getIndexed())->sum(),
+                    'submitted' => collect($content)->map(fn ($item) => $item->getSubmitted())->sum(),
+                    'indexed' => collect($content)->map(fn ($item) => $item->getIndexed())->sum(),
                 ];
 
                 /** @var Sitemap $sitemap */
@@ -68,7 +67,7 @@ class ListSitemaps implements ShouldQueue
                 $serviceAccount->logs()->create([
                     'description' => 'Sitemaps synced',
                     'model_id' => $sitemap->id,
-                    'model_type' => Sitemap::class
+                    'model_type' => Sitemap::class,
                 ]);
 
                 event(new Synced($sitemap));

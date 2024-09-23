@@ -3,6 +3,7 @@
 namespace App\Livewire\Sites;
 
 use App\Jobs\ServiceAccounts\ListSites;
+use App\Models\ServiceAccount;
 use App\Models\Site;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -10,12 +11,13 @@ use Masmerise\Toaster\Toaster;
 
 class Index extends Component
 {
-
     public function syncSites()
     {
         Toaster::success('Syncing sites');
 
-        dispatch(new ListSites());
+        foreach(ServiceAccount::all() as $serviceAccount) {
+            dispatch(new ListSites($serviceAccount));
+        }
 
         $this->dispatch('close-modal');
     }

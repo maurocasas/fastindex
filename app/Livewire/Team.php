@@ -12,13 +12,15 @@ use Masmerise\Toaster\Toaster;
 class Team extends Component
 {
     public string $email = '';
+
     public string $name = '';
+
     public string $password = '';
 
     public function toggleRole(User $user)
     {
         $user->update([
-            'role' => $user->role->value === UserRole::ADMIN->value ? UserRole::MEMBER : UserRole::ADMIN
+            'role' => $user->role->value === UserRole::ADMIN->value ? UserRole::MEMBER : UserRole::ADMIN,
         ]);
 
         Toaster::success('User updated.');
@@ -49,5 +51,4 @@ class Team extends Component
         return view('livewire.team')
             ->with(compact('users'));
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Sitemaps;
 
-use App\Models\ServiceAccount;
 use App\Models\Sitemap;
 use App\Services\GoogleClientFactory;
 use Google\Service\Webmasters;
@@ -27,12 +26,12 @@ class PushSitemap implements ShouldQueue
 
             $webmasters = new Webmasters($clientFactory->client());
 
-            $webmasters->sitemaps->submit($this->sitemap->site->gsc_name, $this->sitemap->path);
+            $webmasters->sitemaps->submit($this->sitemap->site->gsc_name, $this->sitemap->url);
 
             $serviceAccount->logs()->create([
                 'model_id' => $this->sitemap->id,
                 'model_type' => Sitemap::class,
-                'description' => "Registered sitemap {$this->sitemap->path}"
+                'description' => "Registered sitemap {$this->sitemap->url}",
             ]);
 
             break;

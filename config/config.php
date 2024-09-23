@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'free_slots' => 11
+    'free_slots' => 11,
 ];

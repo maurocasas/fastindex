@@ -14,8 +14,7 @@ class StatusBadge extends Component
      */
     public function __construct(public AlertType|string|null $status = 'pending')
     {
-        if(!$this->status instanceof AlertType)
-        {
+        if (! $this->status instanceof AlertType) {
             $this->status = AlertType::tryFrom($status);
         }
     }

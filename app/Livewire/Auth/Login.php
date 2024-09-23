@@ -10,17 +10,19 @@ use Livewire\Component;
 class Login extends Component
 {
     public string $email = '';
+
     public string $password = '';
 
     public function attempt()
     {
         $this->validate([
             'email' => ['required', 'email'],
-            'password' => ['required']
+            'password' => ['required'],
         ]);
 
-        if(!auth()->attempt($this->only('email', 'password'))) {
+        if (! auth()->attempt($this->only('email', 'password'))) {
             $this->addError('email', 'Invalid credentials');
+
             return;
         }
 

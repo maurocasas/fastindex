@@ -4,12 +4,10 @@ namespace App\Livewire;
 
 use App\Events\ServiceAccounts\Created;
 use App\Events\ServiceAccounts\Removed;
-use App\Jobs\ServiceAccounts\ListSites;
 use App\Models\ServiceAccount;
 use App\Models\Site;
 use App\Services\GoogleClientFactory;
 use Google\Exception;
-use Google\Service\SearchConsole;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Title;
@@ -20,7 +18,6 @@ use Masmerise\Toaster\Toaster;
 
 class ServiceAccounts extends Component
 {
-
     use WithFileUploads, WithPagination;
 
     public $credentials;
@@ -47,7 +44,7 @@ class ServiceAccounts extends Component
     {
 
         $this->validate([
-            'credentials' => ['required', 'file', 'mimes:json']
+            'credentials' => ['required', 'file', 'mimes:json'],
         ]);
 
         /** @var UploadedFile $file */
@@ -57,10 +54,11 @@ class ServiceAccounts extends Component
 
         if (ServiceAccount::where('checksum', $checksum)->exists()) {
             $this->addError('credentials', 'Service account already linked.');
+
             return;
         }
 
-        $contents = @ json_decode($file->getContent());
+        $contents = @json_decode($file->getContent());
 
         $keys = [
             'type',
@@ -68,29 +66,32 @@ class ServiceAccounts extends Component
             'private_key_id',
             'private_key',
             'client_email',
-            'client_id'
+            'client_id',
         ];
 
         if ($contents?->type !== 'service_account') {
             $this->addError('credentials', 'Only service_account credentials are accepted.');
+
             return;
         }
 
         foreach ($keys as $key) {
             if (blank($contents?->$key ?? null)) {
                 $this->addError('credentials', 'Credentials JSON is not valid. Upload as is.');
+
                 return;
             }
         }
 
-        $serviceAccount = new ServiceAccount();
+        $serviceAccount = new ServiceAccount;
         $serviceAccount->credentials = $contents;
 
         $clientFactory = app(GoogleClientFactory::class);
         $clientFactory->boot($serviceAccount);
 
-        if (!$clientFactory->validate()) {
+        if (! $clientFactory->validate()) {
             $this->addError('credentials', 'Credentials cannot be validated with Google API.');
+
             return;
         }
 
@@ -107,11 +108,15 @@ class ServiceAccounts extends Component
     #[Title('Service accounts')]
     public function render()
     {
-        $risk = DB::table('service_account_sites')
-            ->selectRaw('site_id, count(distinct service_account_id) accounts')
-            ->groupBy('site_id')
+        /**
+         * Explicitly ignoring this message because there's a discrepancy when
+         * performing withCount using SQLite and MySQL.
+         */
+
+        // @phpstan-ignore-next-line
+        $risk = Site::withCount('service_accounts')
+            ->where('service_accounts_count', '>', 1)
             ->get()
-            ->where('accounts', '>', 1)
             ->count();
 
         $serviceAccounts = ServiceAccount::latest()

@@ -11,9 +11,7 @@ class Created
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(protected ServiceAccount $serviceAccount)
-    {
-    }
+    public function __construct(protected ServiceAccount $serviceAccount) {}
 
     public function serviceAccount(): ServiceAccount
     {

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\ServiceAccount;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\UserRole;
@@ -19,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@user.com',
             'password' => 'password',
-            'role' => UserRole::ADMIN
+            'role' => UserRole::ADMIN,
         ]);
     }
 }

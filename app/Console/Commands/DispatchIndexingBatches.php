@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 class DispatchIndexingBatches extends Command
 {
     protected $signature = 'app:dispatch-indexing-batches';
+
     protected $description = 'Dispatch batches of indexing to GSC';
 
     public function handle()
@@ -26,7 +27,7 @@ class DispatchIndexingBatches extends Command
                         ->orWhereNotIn('coverage_state', ['Submitted and indexed']);
                 })
                 ->orderBy('updated_at', 'asc')
-                ->limit((int)file_get_contents(config_path('daily_quota')))
+                ->limit((int) file_get_contents(config_path('daily_quota')))
                 ->get();
 
             $pages->each(function (Page $page) {

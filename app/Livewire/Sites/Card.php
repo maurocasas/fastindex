@@ -3,8 +3,6 @@
 namespace App\Livewire\Sites;
 
 use App\Models\Site;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -30,7 +28,7 @@ class Card extends Component
         return $this->site->pages()->whereIn('coverage_state', [
             'URL is unknown to Google',
             'Page with redirect',
-            'Server error (5xx)'
+            'Server error (5xx)',
         ])->count();
     }
 

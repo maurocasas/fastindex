@@ -16,9 +16,7 @@ class Index implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(protected Page $page)
-    {
-    }
+    public function __construct(protected Page $page) {}
 
     public function handle(GoogleClientFactory $clientFactory): void
     {
@@ -34,9 +32,9 @@ class Index implements ShouldQueue
 
                 $searchConsole = new SearchConsole($clientFactory->client());
 
-                Log::debug(self::class, [ $this->page->url ]);
+                Log::debug(self::class, [$this->page->url]);
 
-                $request = (new SearchConsole\InspectUrlIndexRequest());
+                $request = (new SearchConsole\InspectUrlIndexRequest);
 
                 $request->setSiteUrl($this->page->site->gsc_name);
                 $request->setInspectionUrl($this->page->url);
@@ -53,16 +51,16 @@ class Index implements ShouldQueue
                     'crawled_at' => Carbon::parse($indexStatus->lastCrawlTime),
                 ]);
 
-                if(!$indexed && $this->page->status === 'success') {
+                if (! $indexed && $this->page->status === 'success') {
                     event(new Indexed($this->page));
                 }
 
-                Log::debug(self::class, [ $this->page->url, $inspectionResult ]);
+                Log::debug(self::class, [$this->page->url, $inspectionResult]);
 
                 $serviceAccount->logs()->create([
                     'model_id' => $this->page->id,
                     'model_type' => Page::class,
-                    'description' => "Status updated for {$this->page->path}"
+                    'description' => "Status updated for {$this->page->path}",
                 ]);
 
                 break;

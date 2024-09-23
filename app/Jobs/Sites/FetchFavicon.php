@@ -11,13 +11,11 @@ class FetchFavicon implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(protected Site $site)
-    {
-    }
+    public function __construct(protected Site $site) {}
 
     public function handle(): void
     {
-        $favicon = Favicon::fetch("http://{$this->site->hostname}")->getFaviconUrl() ?? '';
+        $favicon = Favicon::fetch("http://{$this->site->hostname}")->getFaviconUrl() ?: '';
 
         $this->site->update(compact('favicon'));
     }

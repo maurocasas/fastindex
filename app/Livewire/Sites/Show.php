@@ -17,17 +17,18 @@ class Show extends Component
     use WithPagination;
 
     public Site $site;
+
     public string $tab = 'pages';
 
     public string $sitemap_url = '';
 
     protected $listeners = [
-        'sitemaps-updated' => '$refresh'
+        'sitemaps-updated' => '$refresh',
     ];
 
     public function getSitemaps()
     {
-        if (!$this->site->refreshing_sitemaps) {
+        if (! $this->site->refreshing_sitemaps) {
             $this->site->refreshing_sitemaps = true;
             $this->site->save();
 
@@ -40,24 +41,26 @@ class Show extends Component
     public function createSitemap()
     {
         $this->validate([
-            'sitemap_url' => ['required', 'url']
+            'sitemap_url' => ['required', 'url'],
         ]);
 
         if ($this->site->sitemaps()->where('path', $this->sitemap_url)->exists()) {
             $this->addError('sitemap_url', 'Sitemap already registered.');
+
             return;
         }
 
         $xmlData = Http::get($this->sitemap_url);
 
-        if (blank($xmlData) || !$xmlData) {
+        if (blank($xmlData)) {
             $this->addError('sitemap_url', 'Make sure the URL is public and reachable.');
+
             return;
         }
 
         dispatch(new PushSitemap($this->site->sitemaps()->create([
             'url' => $this->sitemap_url,
-            'content' => []
+            'content' => [],
         ])));
 
         $this->reset('sitemap_url');
@@ -82,7 +85,7 @@ class Show extends Component
 
     public function toggleAutoindex()
     {
-        $this->site->update(['auto_index' => !$this->site->auto_index]);
+        $this->site->update(['auto_index' => ! $this->site->auto_index]);
 
         Toaster::success('Auto-indexing setting updated.');
     }
@@ -117,7 +120,7 @@ class Show extends Component
         return $this->site->pages()->whereIn('coverage_state', [
             'URL is unknown to Google',
             'Page with redirect',
-            'Server error (5xx)'
+            'Server error (5xx)',
         ])->count();
     }
 

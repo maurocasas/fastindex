@@ -9,11 +9,14 @@ use Masmerise\Toaster\Toaster;
 
 class Account extends Component
 {
-
     public string $name = '';
+
     public string $email = '';
+
     public string $current_password = '';
+
     public string $new_password = '';
+
     public string $new_password_confirmation = '';
 
     public function mount()
@@ -25,7 +28,7 @@ class Account extends Component
     {
         $this->validate([
             'name' => ['required', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore(auth()->id())]
+            'email' => ['required', 'email', Rule::unique('users')->ignore(auth()->id())],
         ]);
 
         auth()->user()->update($this->only('name', 'email'));
@@ -41,13 +44,15 @@ class Account extends Component
             'new_password_confirmation' => ['required'],
         ]);
 
-        if (!auth()->user()->checkPassword($this->current_password)) {
+        if (! auth()->user()->checkPassword($this->current_password)) {
             $this->addError('current_password', 'Invalid current password.');
+
             return;
         }
 
         if (auth()->user()->checkPassword($this->new_password)) {
             $this->addError('new_password', 'Password should be different to current one.');
+
             return;
         }
 

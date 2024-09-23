@@ -11,9 +11,7 @@ class Linked
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(protected Site $site)
-    {
-    }
+    public function __construct(protected Site $site) {}
 
     public function site(): Site
     {

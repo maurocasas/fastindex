@@ -12,9 +12,7 @@ class CheckBrokenLink implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(protected Page $page)
-    {
-    }
+    public function __construct(protected Page $page) {}
 
     public function handle(): void
     {

@@ -13,7 +13,7 @@ class Settings extends Component
 
     public function __construct()
     {
-        $this->daily_quota = File::get(config_path('daily_quota'));
+        $this->daily_quota = (int) File::get(config_path('daily_quota'));
     }
 
     public function store()
@@ -22,7 +22,7 @@ class Settings extends Component
             'daily_quota' => ['required', 'numeric', 'min:0', 'max:2000'],
         ]);
 
-        File::put(config_path('daily_quota'), $this->daily_quota);
+        File::put(config_path('daily_quota'), (string) $this->daily_quota);
 
         Toaster::success('Saved.');
     }

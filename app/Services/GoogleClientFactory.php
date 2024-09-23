@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class GoogleClientFactory
 {
-
     protected Client $client;
 
     /**
@@ -19,7 +18,7 @@ class GoogleClientFactory
      */
     public function boot(ServiceAccount $serviceAccount): void
     {
-        $this->client = new Client();
+        $this->client = new Client;
         $this->client->setAuthConfig($serviceAccount->credentials);
         $this->client->addScope([Webmasters::WEBMASTERS]);
     }
@@ -38,12 +37,10 @@ class GoogleClientFactory
             Log::debug(self::class, [$result]);
 
             return true;
-        }
-        catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             Log::error($exception);
 
             return false;
         }
     }
-
 }

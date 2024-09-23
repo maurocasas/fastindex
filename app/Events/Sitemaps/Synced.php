@@ -11,9 +11,7 @@ class Synced
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(protected Sitemap $sitemap)
-    {
-    }
+    public function __construct(protected Sitemap $sitemap) {}
 
     public function sitemap(): Sitemap
     {

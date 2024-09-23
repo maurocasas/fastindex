@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 class MonitorServiceAccounts extends Command
 {
     protected $signature = 'app:monitor-service-accounts';
+
     protected $description = 'Iterate over service accounts to sync GSC sites with system';
 
     public function handle()
