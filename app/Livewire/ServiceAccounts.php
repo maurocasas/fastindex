@@ -115,7 +115,7 @@ class ServiceAccounts extends Component
 
         // @phpstan-ignore-next-line
         $risk = Site::withCount('service_accounts')
-            ->where('service_accounts_count', '>', 1)
+            ->having('service_accounts_count', '>', 1)
             ->get()
             ->count();
 
