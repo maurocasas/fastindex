@@ -11,6 +11,6 @@ Manage unlimited sites, pages, sitemaps, service accounts and users.
 
 Please refer to the [Wiki](https://github.com/maurocasas/fastindex/wiki)
 
-### [Looking for a managed version?](https://github.com/maurocasas/fastindex/wiki/0.-Managed-Cloud)
+### [Looking for a managed version? Click here](https://github.com/maurocasas/fastindex/wiki/0.-Managed-Cloud)
 
 Follow me on X [@maurohouseless](https://x.com/maurohouseless)
