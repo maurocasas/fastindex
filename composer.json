@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "maurocasas/fastindex",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "FastIndex - Open source search engine indexing tool",
+    "keywords": ["laravel", "google search console", "indexing"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
