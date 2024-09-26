@@ -7,6 +7,15 @@ provides insights on sitemaps and pages, and best of all, it's completely unlimi
 
 Manage unlimited sites, pages, sitemaps, service accounts and users.
 
+### Fast installation
+
+1. `composer create-project maurocasas/fastindex`
+2. `npm i`
+3. `npm run build`
+4. `php artisan db:seed`
+5. `php artisan serve`
+6. Log-in using `user@user.com` `password`
+
 ### Documentation
 
 Please refer to the [Wiki](https://github.com/maurocasas/fastindex/wiki)
