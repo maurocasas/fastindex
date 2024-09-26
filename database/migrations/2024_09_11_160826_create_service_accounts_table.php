@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('service_accounts', function (Blueprint $table) {
             $table->id();
             $table->json('credentials');
+            $table->text('checksum');
             $table->timestamp('validated_at')->nullable();
             $table->timestamps();
         });

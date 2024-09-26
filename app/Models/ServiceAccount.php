@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property array $credentials
@@ -42,6 +42,15 @@ class ServiceAccount extends Model
         'credentials' => 'json',
         'validated_at' => 'datetime',
     ];
+
+    static function boot()
+    {
+        parent::boot();
+
+        self::creating(function(ServiceAccount $serviceAccount) {
+            $serviceAccount->checksum = md5(json_encode($serviceAccount->credentials));
+        });
+    }
 
     public function sites(): BelongsToMany
     {
