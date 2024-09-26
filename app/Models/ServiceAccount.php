@@ -68,6 +68,6 @@ class ServiceAccount extends Model
             ->withCount(['logs' => function (Builder $logs) {
                 $logs->where('created_at', '>=', now()->subHours(24));
             }])
-            ->where('logs_count', '<=', file_get_contents(config_path('daily_quota')));
+            ->having('logs_count', '<=', file_get_contents(config_path('daily_quota')));
     }
 }
