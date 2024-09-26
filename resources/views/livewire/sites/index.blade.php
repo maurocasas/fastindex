@@ -27,9 +27,7 @@
             <livewire:sites.card :site="$site" wire:key="site-{{$site->id}}"/>
         @endforeach
     </div>
-</x-outlet>
 
-@push('modals')
     @persist('modal')
     <dialog id="sync_sites" class="p-8 space-y-8 rounded-lg md:rounded-xl w-full max-w-md" wire:ignore.self>
         <div class="flex items-center justify-between">
@@ -57,4 +55,4 @@
         </form>
     </dialog>
     @endpersist
-@endpush
+</x-outlet>
