@@ -198,6 +198,7 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
+                'queue' => [env('REDIS_QUEUE', 'default')],
                 'maxProcesses' => 10,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
