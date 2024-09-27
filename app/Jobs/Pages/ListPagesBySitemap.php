@@ -72,7 +72,7 @@ class ListPagesBySitemap implements ShouldQueue
 
             DB::table('pages')->upsert(
                 $values,
-                ['url'], // The unique key(s)
+                ['path', 'site_id'], // The unique key(s)
                 ['path', 'url', 'site_id']
             );
         });
