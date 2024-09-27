@@ -37,5 +37,7 @@ class CreateAdmin extends Command
             'password' => $password,
             'role' => UserRole::ADMIN
         ]);
+
+        $this->line("Password: {$password}");
     }
 }
