@@ -32,7 +32,14 @@ class ListPagesBySitemap implements ShouldQueue
             return;
         }
 
-        $xml = new SimpleXMLElement($xml_contents);
+        try {
+            $xml = new SimpleXMLElement($xml_contents);
+        }
+        catch(\Exception $exception) {
+            $this->sitemap->toggleBusy(false);
+            $this->fail($exception);
+            return;
+        }
 
         foreach ($xml->url as $item) {
             dispatch(new UpdateOrInsertPage($this->sitemap, (string) $item->loc));
