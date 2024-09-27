@@ -21,6 +21,7 @@ No vendor lock-in means all your data is yours and will always be yours.
 5. Implements automatic quota management to avoid abusing Search API.
 6. Supports creation of multiple user accounts for team management.
 7. Warns if a site has more than one service account linked, which violates GSC Terms of Service.
+8. Recognizes sitemap indexes and renders them one at a time.
 
 # System Requirements
 

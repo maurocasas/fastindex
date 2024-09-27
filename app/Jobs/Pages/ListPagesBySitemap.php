@@ -5,7 +5,6 @@ namespace App\Jobs\Pages;
 use App\Models\Sitemap;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Http;
 use SimpleXMLElement;
 
 class ListPagesBySitemap implements ShouldQueue
@@ -19,8 +18,9 @@ class ListPagesBySitemap implements ShouldQueue
 
     public function handle(): void
     {
-        if($this->sitemap->busy)
+        if($this->sitemap->busy) {
             return;
+        }
 
         $this->sitemap->toggleBusy();
 
@@ -42,7 +42,7 @@ class ListPagesBySitemap implements ShouldQueue
         }
 
         foreach ($xml->url as $item) {
-            dispatch(new UpdateOrInsertPage($this->sitemap, (string) $item->loc));
+            dispatch(new UpdateOrInsertPage($this->sitemap->site, (string) $item->loc));
         }
 
         $this->sitemap->toggleBusy(false);

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property int $site_id
  * @property string $url
- * @property \Illuminate\Support\Carbon|null $last_download_at
+ * @property \Illuminate\Support\Carbon|null $downloaded_at
  * @property \Illuminate\Support\Carbon|null $submitted_at
  * @property bool $pending
  * @property int $submitted
@@ -48,7 +48,7 @@ class Sitemap extends Model
 
     protected $fillable = [
         'url',
-        'last_download_at',
+        'downloaded_at',
         'submitted_at',
         'submitted',
         'indexed',
@@ -59,11 +59,12 @@ class Sitemap extends Model
     ];
 
     protected $casts = [
-        'last_download_at' => 'datetime',
+        'downloaded_at' => 'datetime',
         'submitted_at' => 'datetime',
         'pending' => 'boolean',
         'busy' => 'boolean',
         'content' => 'json',
+        'is_index' => 'boolean'
     ];
 
     public function site(): BelongsTo
