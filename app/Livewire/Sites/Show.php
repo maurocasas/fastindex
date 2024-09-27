@@ -139,6 +139,6 @@ class Show extends Component
     public function render()
     {
         return view('livewire.sites.show')
-            ->title($this->site->hostname);
+            ->title("Manage site: {$this->site->hostname}");
     }
 }
