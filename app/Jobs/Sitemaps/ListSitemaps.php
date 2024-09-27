@@ -72,8 +72,6 @@ class ListSitemaps implements ShouldQueue
 
                 event(new Synced($sitemap));
             }
-
-            break;
         }
 
         $this->site->refreshing_sitemaps = false;
