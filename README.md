@@ -48,13 +48,18 @@ Please refer to the [Wiki](https://github.com/maurocasas/fastindex/wiki)
 
 # Managed Cloud
 
-If running servers, configuring databases, backups, cronjobs and everything here is not for you take a look at the [Managed Cloud](https://github.com/maurocasas/fastindex/wiki/0.-Managed-Cloud)
+If running servers, configuring databases, backups, cronjobs, and everything here is not for you, take a look at our Managed Cloud option. This solution provides all the benefits of FastIndex without the hassle of server management. 
+
+[Managed Cloud](https://github.com/maurocasas/fastindex/wiki/0.-Managed-Cloud)
 
 # Donations/Sponsorship
 
-To stay completely free and open-source, without any feature limitation or paywall I need your support.
-If FastIndex is saving you money and helping you index your sites faster, please consider Sponsoring me and the project.
+To stay completely free and open-source, without any feature limitation or paywall, I need your support. 
+
+If FastIndex is saving you money and helping you index your sites faster, please consider sponsoring me and the project.
 
 [https://github.com/sponsors/maurocasas](https://github.com/sponsors/maurocasas)
+
+Your support helps ensure that FastIndex remains a powerful, accessible tool for everyone. 
 
 Thank you so much!
