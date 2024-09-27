@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('site_id');
             $table->bigInteger('sitemap_id');
-            $table->text('url');
+            $table->text('url')->primary();
             $table->text('path');
             $table->string('coverage_state')->nullable();
             $table->string('indexing_state')->nullable();
