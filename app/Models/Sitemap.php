@@ -76,10 +76,10 @@ class Sitemap extends Model
         return $this->hasMany(Page::class);
     }
 
-    public function toggleBusy(): void
+    public function toggleBusy(bool $status = true): void
     {
         $this->update([
-            'busy' => !$this->busy
+            'busy' => $status
         ]);
     }
 }

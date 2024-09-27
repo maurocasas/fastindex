@@ -27,7 +27,7 @@ class ListPagesBySitemap implements ShouldQueue
         $xml_contents = @file_get_contents($this->sitemap->url);
 
         if (blank($xml_contents)) {
-            $this->sitemap->toggleBusy();
+            $this->sitemap->toggleBusy(false);
             $this->fail('Sitemap not reachable');
             return;
         }
@@ -38,6 +38,6 @@ class ListPagesBySitemap implements ShouldQueue
             dispatch(new UpdateOrInsertPage($this->sitemap, (string) $item->loc));
         }
 
-        $this->sitemap->toggleBusy();
+        $this->sitemap->toggleBusy(false);
     }
 }
