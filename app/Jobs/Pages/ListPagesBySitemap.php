@@ -47,7 +47,7 @@ class ListPagesBySitemap implements ShouldQueue
         $pages = [];
 
         foreach ($xml->url as $item) {
-            $pages[] = $item->loc;
+            $pages[] = (string) $item->loc;
         }
 
         LazyCollection::make($pages)
@@ -72,8 +72,8 @@ class ListPagesBySitemap implements ShouldQueue
 
             DB::table('pages')->upsert(
                 $values,
-                ['path', 'site_id'], // The unique key(s)
-                ['path', 'url', 'site_id']
+                ['url', 'site_id'], // The unique key(s)
+                ['path']
             );
         });
     }
