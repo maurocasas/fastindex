@@ -24,15 +24,15 @@ class ListPagesBySitemap implements ShouldQueue
 
         $this->sitemap->toggleBusy();
 
-        $response = Http::get($this->sitemap->url);
+        $xml_contents = @file_get_contents($this->sitemap->url);
 
-        if ($response->failed()) {
+        if (blank($xml_contents)) {
             $this->sitemap->toggleBusy();
             $this->fail('Sitemap not reachable');
             return;
         }
 
-        $xml = new SimpleXMLElement($response->body());
+        $xml = new SimpleXMLElement($xml_contents);
 
         foreach ($xml->url as $item) {
             dispatch(new UpdateOrInsertPage($this->sitemap, (string) $item->loc));
