@@ -50,9 +50,11 @@ class ListPagesBySitemap implements ShouldQueue
             $pages[] = (string) $item->loc;
         }
 
-        LazyCollection::make($pages)
-            ->chunk(1000)
-            ->each(fn($chunk) => $this->upsertChunk($chunk));
+//        LazyCollection::make($pages)
+//            ->chunk(1000)
+//            ->each(fn($chunk) => $this->upsertChunk($chunk));
+
+        $this->upsertChunk($pages);
 
         $this->sitemap->toggleBusy(false);
     }
