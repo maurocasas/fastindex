@@ -54,6 +54,7 @@ class Page extends Model
     use HasFactory;
 
     protected $fillable = [
+        'site_id',
         'url',
         'path',
         'coverage_state',

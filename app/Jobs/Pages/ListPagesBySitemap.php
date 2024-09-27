@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Pages;
 
+use App\Models\Page;
 use App\Models\Sitemap;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -72,7 +73,7 @@ class ListPagesBySitemap implements ShouldQueue
                 ];
             })->toArray();
 
-            $this->sitemap->site->pages()->upsert($values, ['url']);
+            Page::upsert($values, ['url']);
         });
     }
 }
