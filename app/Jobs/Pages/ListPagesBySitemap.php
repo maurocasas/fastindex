@@ -44,24 +44,27 @@ class ListPagesBySitemap implements ShouldQueue
             return;
         }
 
+        $existingPages = $this->sitemap->site->pages()->pluck('url')->toArray();
+
         $pages = [];
 
         foreach ($xml->url as $item) {
-            $path = Str::after((string) $item->loc, $this->sitemap->site->hostname);
+            $url = (string) $item->loc;
+            $path = Str::after($url, $this->sitemap->site->hostname);
+
+            if (in_array($url, $existingPages)) {
+                continue;
+            }
 
             $pages[] = [
                 'site_id' => $this->sitemap->site_id,
-                'url' => (string) $item->loc,
+                'url' => (string)$item->loc,
                 'path' => blank($path) ? '/' : $path,
             ];
         }
 
         DB::transaction(function () use ($pages) {
-            DB::table('pages')->upsert(
-                $pages,
-                ['url'],
-                ['path', 'site_id']
-            );
+            DB::table('pages')->insert($pages);
         });
 
         $this->sitemap->toggleBusy(false);
