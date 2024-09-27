@@ -76,11 +76,6 @@ class Page extends Model
         return $this->belongsTo(Site::class);
     }
 
-    public function sitemap(): BelongsTo
-    {
-        return $this->belongsTo(Sitemap::class);
-    }
-
     public function getStatusAttribute(): string
     {
         return [
@@ -97,11 +92,6 @@ class Page extends Model
             $query->whereNull('crawled_at')
                 ->orWhere('crawled_at', '<=', now()->subDay());
         });
-    }
-
-    public function getInternalDescriptionAttribute()
-    {
-        return $this->path;
     }
 
     public function getInternalUrlAttribute(): string
