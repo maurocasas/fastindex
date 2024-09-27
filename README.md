@@ -6,7 +6,9 @@ FastIndex is an open-source and self-hostable alternative to TagParrot, Omega In
 
 Google Search Console crawling can take weeks or months to reach your site; even after all this waiting, it can still fail. FastIndex leverages Search API to push your pages directly to their crawlers, prioritizing them.
 
-Instead of paying for tiered software, install FastIndex on any VPS and run an uncapped solution. Enjoy unlimited sites, sitemaps, pages - unlimited everything.
+Instead of paying for tiered software, install FastIndex on any VPS and run an uncapped solution. 
+
+Enjoy unlimited sites, sitemaps, pages - unlimited everything.
 
 No vendor lock-in means all your data is yours and will always be yours.
 
