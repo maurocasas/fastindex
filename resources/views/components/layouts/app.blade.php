@@ -56,9 +56,9 @@
                     <x-phosphor.icons::regular.gear class="size-4"/>
                     <span>Settings</span>
                 </a>
-                <a href="{{route('dashboard')}}" class="nav-link">
-                    <x-phosphor.icons::regular.lifebuoy class="size-4"/>
-                    <span>Documentation</span>
+                <a href="https://github.com/maurocasas/fastindex/wiki" class="nav-link">
+                    <x-phosphor.icons::regular.book-open class="size-4"/>
+                    <span>Wiki</span>
                 </a>
             @endcan
             <a href="{{route('account')}}" wire:navigate.hover
