@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $site_id
@@ -55,12 +55,14 @@ class Sitemap extends Model
         'pending',
         'warnings',
         'errors',
+        'busy'
     ];
 
     protected $casts = [
         'last_download_at' => 'datetime',
         'submitted_at' => 'datetime',
         'pending' => 'boolean',
+        'busy' => 'boolean',
         'content' => 'json',
     ];
 
@@ -72,5 +74,12 @@ class Sitemap extends Model
     public function pages(): HasMany
     {
         return $this->hasMany(Page::class);
+    }
+
+    public function toggleBusy(): void
+    {
+        $this->update([
+            'busy' => !$this->busy
+        ]);
     }
 }

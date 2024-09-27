@@ -20,6 +20,11 @@ class GetSitemapPages implements ShouldQueue
 
     public function handle(): void
     {
+        if($this->sitemap->busy)
+            return;
+
+        $this->sitemap->toggleBusy();
+
         $response = Http::get($this->sitemap->url);
 
         if ($response->failed()) {
@@ -32,5 +37,7 @@ class GetSitemapPages implements ShouldQueue
         foreach ($xml->url as $item) {
             dispatch(new UpdateOrInsertPage($this->sitemap, (string) $item->loc));
         }
+
+        $this->sitemap->toggleBusy();
     }
 }

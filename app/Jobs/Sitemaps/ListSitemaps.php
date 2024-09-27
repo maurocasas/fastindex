@@ -71,6 +71,8 @@ class ListSitemaps implements ShouldQueue
                 ]);
 
                 event(new Synced($sitemap));
+
+                dispatch(new GetSitemapPages($sitemap));
             }
         }
 
