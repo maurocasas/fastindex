@@ -2,7 +2,7 @@
 
 FastIndex is an open-source and self-hostable alternative to TagParrot, Omega Indexer, URLMonitor, and similar tools. It helps your sites get crawled & indexed faster by Google Search Console.
 
-![frame_generic_light(3)](https://github.com/user-attachments/assets/fe46b3c2-76e5-45de-b19b-4fa09f7d1479)
+![frame_generic_light(4)](https://github.com/user-attachments/assets/8960bfce-ca08-4bf6-890d-b98205fb35b5)
 
 Google Search Console crawling can take weeks or months to reach your site; even after all this waiting, it can still fail. FastIndex leverages Search API to push your pages directly to their crawlers, prioritizing them.
 
