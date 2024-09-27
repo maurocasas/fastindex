@@ -16,7 +16,7 @@ class CheckBrokenLink implements ShouldQueue
 
     public function handle(): void
     {
-        if (Http::get($this->page->path)->notFound()) {
+        if (Http::get($this->page->url)->notFound()) {
             event(new BrokenLink($this->page));
         }
     }
