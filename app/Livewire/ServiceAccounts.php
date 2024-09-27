@@ -42,7 +42,6 @@ class ServiceAccounts extends Component
      */
     public function store()
     {
-
         $this->validate([
             'credentials' => ['required', 'file', 'mimes:json'],
         ]);
@@ -108,14 +107,10 @@ class ServiceAccounts extends Component
     #[Title('Service accounts')]
     public function render()
     {
-        /**
-         * Explicitly ignoring this message because there's a discrepancy when
-         * performing withCount using SQLite and MySQL.
-         */
+        $function = config('database.default') === 'sqlite' ? 'where' : 'having';
 
-        // @phpstan-ignore-next-line
         $risk = Site::withCount('service_accounts')
-            ->having('service_accounts_count', '>', 1)
+            ->{$function}('service_accounts_count', '>', 1)
             ->get()
             ->count();
 

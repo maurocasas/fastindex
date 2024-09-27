@@ -64,10 +64,12 @@ class ServiceAccount extends Model
 
     public function scopeAvailable(Builder $builder): void
     {
+        $function = config('database.default') === 'sqlite' ? 'where' : 'having';
+
         $builder
             ->withCount(['logs' => function (Builder $logs) {
                 $logs->where('created_at', '>=', now()->subHours(24));
             }])
-            ->having('logs_count', '<=', file_get_contents(config_path('daily_quota')));
+            ->{$function}('logs_count', '<=', file_get_contents(config_path('daily_quota')));
     }
 }
