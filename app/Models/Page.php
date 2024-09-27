@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $site_id
@@ -70,15 +70,6 @@ class Page extends Model
         'busy' => 'boolean',
         'not_found' => 'boolean',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        self::creating(function (Page $page) {
-            $page->site_id = $page->sitemap->site_id;
-        });
-    }
 
     public function site(): BelongsTo
     {

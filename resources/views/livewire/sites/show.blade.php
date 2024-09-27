@@ -147,10 +147,10 @@
                             </a>
                         </td>
                         <td>
-                            @if(filled($sitemap->last_download_at))
+                            @if(filled($sitemap->downloaded_at))
                                 <span class="underline decoration-dotted"
-                                      title="{{$sitemap->last_download_at->toDateTimeString()}}">
-                                    {{$sitemap->last_download_at->diffForHumans()}}
+                                      title="{{$sitemap->downloaded_at->toDateTimeString()}}">
+                                    {{$sitemap->downloaded_at->diffForHumans()}}
                                 </span>
                             @else
                                 <x-status-badge>
