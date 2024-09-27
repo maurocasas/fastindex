@@ -1,13 +1,33 @@
-# FastIndex
+# About the project
 
-FastIndex is an open-source and self-hostable search engine indexation alternative to TagParrot, URLMonitor, Omega Indexer, IndexRusher, IndexWhale and many many more...
+FastIndex is an open-source and self-hostable alternative to TagParrot, Omega Indexer, URLMonitor, and similar tools. It helps your sites get crawled & indexed faster by Google Search Console.
 
-It's built on top of Laravel 11 and Laravel Livewire to ensure speed. It protects your Google Search Console for API abuses and throttling, checks for broken links,
-provides insights on sitemaps and pages, and best of all, it's completely unlimited.
+![frame_generic_light(3)](https://github.com/user-attachments/assets/fe46b3c2-76e5-45de-b19b-4fa09f7d1479)
 
-Manage unlimited sites, pages, sitemaps, service accounts and users.
+Google Search Console crawling can take weeks or months to reach your site; even after all this waiting, it can still fail. FastIndex leverages Search API to push your pages directly to their crawlers, prioritizing them.
 
-### Fast installation
+Instead of paying for tiered software, install FastIndex on any VPS and run an uncapped solution. Enjoy unlimited sites, sitemaps, pages - unlimited everything.
+
+No vendor lock-in means all your data is yours and will always be yours.
+
+# Features
+
+1. Connects with your Search Console through Service Accounts, allowing auto-indexing of up to 2,000 pages per day.
+2. Manages unlimited service accounts and sites, with no limits on the number of pages.
+3. Monitors sitemaps & sitemap indexes daily, auto-indexing new pages and de-indexing broken pages.
+4. Checks for broken links daily and de-indexes them to avoid harming your searchability.
+5. Implements automatic quota management to avoid abusing Search API.
+6. Supports creation of multiple user accounts for team management.
+7. Warns if a site has more than one service account linked, which violates GSC Terms of Service.
+
+# System Requirements
+
+* PHP 8.0 or higher
+* Node 18 or higher
+* MySQL or SQLite _MySQL recommended for larger sites_
+* Composer
+
+# Quick Start
 
 1. `composer create-project maurocasas/fastindex`
 2. `npm i`
@@ -16,10 +36,25 @@ Manage unlimited sites, pages, sitemaps, service accounts and users.
 5. `php artisan serve`
 6. Log-in using `user@user.com` `password`
 
-### Documentation
+For more detailed instructions please refer to the Wiki.
+
+# Support
+
+* Twitter/X: [@maurohouseless](https://x.com/maurohouseless)
+
+# Documentation
 
 Please refer to the [Wiki](https://github.com/maurocasas/fastindex/wiki)
 
-### [Looking for a managed version? Click here](https://github.com/maurocasas/fastindex/wiki/0.-Managed-Cloud)
+# Managed Cloud
 
-Follow me on X [@maurohouseless](https://x.com/maurohouseless)
+If running servers, configuring databases, backups, cronjobs and everything here is not for you take a look at the [Managed Cloud](https://github.com/maurocasas/fastindex/wiki/0.-Managed-Cloud)
+
+# Donations/Sponsorship
+
+To stay completely free and open-source, without any feature limitation or paywall I need your support.
+If FastIndex is saving you money and helping you index your sites faster, please consider Sponsoring me and the project.
+
+[https://github.com/sponsors/maurocasas](https://github.com/sponsors/maurocasas)
+
+Thank you so much!
