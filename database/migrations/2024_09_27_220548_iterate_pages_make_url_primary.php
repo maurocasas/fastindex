@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            $table->text('url')->primary()->nullable()->change();
-        });
+        if(config('database.default') === 'sqlite') {
+            Schema::table('pages', function (Blueprint $table) {
+                $table->text('url')->primary()->nullable()->change();
+            });
+        }
     }
 
     /**
