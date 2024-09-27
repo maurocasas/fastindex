@@ -27,6 +27,7 @@ class ListPagesBySitemap implements ShouldQueue
         $response = Http::get($this->sitemap->url);
 
         if ($response->failed()) {
+            $this->sitemap->toggleBusy();
             $this->fail('Sitemap not reachable');
             return;
         }
