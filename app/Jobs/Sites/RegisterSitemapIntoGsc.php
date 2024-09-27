@@ -19,7 +19,7 @@ class RegisterSitemapIntoGsc implements ShouldQueue
 
     public function handle(GoogleClientFactory $clientFactory): void
     {
-        $serviceAccounts = $this->sitemap->site->service_accounts()->available()->get();
+        $serviceAccounts = $this->sitemap->site->service_accounts()->get();
 
         foreach ($serviceAccounts as $serviceAccount) {
             $clientFactory->boot($serviceAccount);

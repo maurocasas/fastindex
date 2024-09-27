@@ -27,7 +27,7 @@ class ListSitemapsBySite implements ShouldQueue
      */
     public function handle(GoogleClientFactory $clientFactory): void
     {
-        $serviceAccounts = $this->site->service_accounts()->available()->get();
+        $serviceAccounts = $this->site->service_accounts()->get();
 
         foreach ($serviceAccounts as $serviceAccount) {
             $clientFactory->boot($serviceAccount);
