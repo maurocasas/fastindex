@@ -56,7 +56,7 @@
                     <x-phosphor.icons::regular.gear class="size-4"/>
                     <span>Settings</span>
                 </a>
-                <a href="https://github.com/maurocasas/fastindex/wiki" class="nav-link">
+                <a href="https://github.com/maurocasas/fastindex/wiki" class="nav-link" target="_blank">
                     <x-phosphor.icons::regular.book-open class="size-4"/>
                     <span>Wiki</span>
                 </a>
