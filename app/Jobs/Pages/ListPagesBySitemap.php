@@ -47,34 +47,28 @@ class ListPagesBySitemap implements ShouldQueue
         $pages = [];
 
         foreach ($xml->url as $item) {
-            $pages[] = (string) $item->loc;
+            $path = Str::after((string) $item->loc, $this->sitemap->site->hostname);
+
+            $pages[] = [
+                'site_id' => $this->sitemap->site_id,
+                'url' => (string) $item->loc,
+                'path' => blank($path) ? '/' : $path,
+            ];
         }
 
-        LazyCollection::make($pages)
-            ->chunk(1000)
-            ->each(fn($chunk) => $this->upsertChunk($chunk));
+        DB::transaction(function () use ($pages) {
+            DB::table('pages')->upsert(
+                $pages,
+                ['url'],
+                ['path', 'site_id']
+            );
+        });
 
         $this->sitemap->toggleBusy(false);
     }
 
     private function upsertChunk($chunk)
     {
-        DB::transaction(function () use ($chunk) {
-            $values = $chunk->map(function ($url) {
-                $path = Str::after($url, $this->sitemap->site->hostname);
 
-                return [
-                    'site_id' => $this->sitemap->site_id,
-                    'url' => $url,
-                    'path' => blank($path) ? '/' : $path,
-                ];
-            })->toArray();
-
-            DB::table('pages')->upsert(
-                $values,
-                ['url', 'site_id'], // The unique key(s)
-                ['path']
-            );
-        });
     }
 }
