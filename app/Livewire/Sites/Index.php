@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Sites;
 
-use App\Jobs\ServiceAccounts\ListSites;
+use App\Jobs\ServiceAccounts\ListSitesLinkedToServiceAccount;
 use App\Models\ServiceAccount;
 use App\Models\Site;
 use Livewire\Attributes\Title;
@@ -16,7 +16,7 @@ class Index extends Component
         Toaster::success('Syncing sites');
 
         foreach(ServiceAccount::all() as $serviceAccount) {
-            dispatch(new ListSites($serviceAccount));
+            dispatch(new ListSitesLinkedToServiceAccount($serviceAccount));
         }
 
         $this->dispatch('close-modal');

@@ -2,8 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Events\ServiceAccounts\Created;
-use App\Events\ServiceAccounts\Removed;
+use App\Jobs\ServiceAccounts\ListSitesLinkedToServiceAccount;
 use App\Models\ServiceAccount;
 use App\Models\Site;
 use App\Services\GoogleClientFactory;
@@ -29,8 +28,6 @@ class ServiceAccounts extends Component
                 ->where('service_account_id', $serviceAccount->id)
                 ->delete();
         }
-
-        event(new Removed($serviceAccount));
 
         $serviceAccount->delete();
 
@@ -101,7 +98,7 @@ class ServiceAccounts extends Component
 
         Toaster::success('Service account successfully linked.');
 
-        event(new Created($serviceAccount));
+        dispatch(new ListSitesLinkedToServiceAccount($serviceAccount));
     }
 
     #[Title('Service accounts')]

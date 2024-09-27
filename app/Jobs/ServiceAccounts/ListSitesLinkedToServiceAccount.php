@@ -2,7 +2,8 @@
 
 namespace App\Jobs\ServiceAccounts;
 
-use App\Events\Sites\Linked;
+use App\Jobs\Sites\AttemptFetchFavicon;
+use App\Jobs\Sites\ListSitemapsBySite;
 use App\Models\ServiceAccount;
 use App\Models\Site;
 use App\Services\GoogleClientFactory;
@@ -11,11 +12,13 @@ use Google\Service\SearchConsole;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class ListSites implements ShouldQueue
+class ListSitesLinkedToServiceAccount implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(protected ServiceAccount $serviceAccount) {}
+    public function __construct(protected ServiceAccount $serviceAccount)
+    {
+    }
 
     /**
      * @throws Exception
@@ -41,7 +44,10 @@ class ListSites implements ShouldQueue
         $sync = $this->serviceAccount->sites()->syncWithoutDetaching($sites);
 
         foreach ($sync['attached'] as $site_id) {
-            event(new Linked(Site::find($site_id)));
+            $site = Site::find($site_id);
+
+            dispatch(new ListSitemapsBySite($site));
+            dispatch(new AttemptFetchFavicon($site));
         }
     }
 }

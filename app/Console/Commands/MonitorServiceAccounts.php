@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\ServiceAccounts\ListSites;
+use App\Jobs\ServiceAccounts\ListSitesLinkedToServiceAccount;
 use App\Models\ServiceAccount;
 use Illuminate\Console\Command;
 
@@ -15,7 +15,7 @@ class MonitorServiceAccounts extends Command
     public function handle()
     {
         ServiceAccount::all()->each(function (ServiceAccount $serviceAccount) {
-            dispatch(new ListSites($serviceAccount));
+            dispatch(new ListSitesLinkedToServiceAccount($serviceAccount));
         });
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Pages\CheckBrokenLink;
+use App\Jobs\Pages\CheckIfPageIsNotFound;
 use App\Models\Page;
 use Illuminate\Console\Command;
 
@@ -15,7 +15,7 @@ class MonitorBrokenLinks extends Command
     public function handle()
     {
         Page::where('not_found', false)->each(function (Page $page) {
-            dispatch(new CheckBrokenLink($page));
+            dispatch(new CheckIfPageIsNotFound($page));
         });
     }
 }

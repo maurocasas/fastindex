@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Pages\Index;
+use App\Jobs\Pages\IndexPage;
 use App\Models\Page;
 use App\Models\ServiceAccount;
 use Illuminate\Console\Command;
@@ -32,7 +32,7 @@ class DispatchIndexingBatches extends Command
 
             $pages->each(function (Page $page) {
                 $this->info("Checking indexing for {$page->url}");
-                dispatch(new Index($page));
+                dispatch(new IndexPage($page));
             });
         });
     }

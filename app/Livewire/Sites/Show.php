@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Sites;
 
-use App\Jobs\Sitemaps\ListSitemaps;
-use App\Jobs\Sitemaps\PushSitemap;
+use App\Jobs\Sites\ListSitemapsBySite;
+use App\Jobs\Sites\RegisterSitemapIntoGsc;
+use App\Jobs\Sites\RemoveSitemapFromSite;
 use App\Models\Site;
 use App\Models\Sitemap;
 use Illuminate\Support\Facades\Http;
@@ -32,7 +33,7 @@ class Show extends Component
             $this->site->refreshing_sitemaps = true;
             $this->site->save();
 
-            dispatch(new ListSitemaps($this->site));
+            dispatch(new ListSitemapsBySite($this->site));
         }
 
         Toaster::success('Your sitemaps are being refreshed.');
@@ -58,7 +59,7 @@ class Show extends Component
             return;
         }
 
-        dispatch(new PushSitemap($this->site->sitemaps()->create([
+        dispatch(new RegisterSitemapIntoGsc($this->site->sitemaps()->create([
             'url' => $this->sitemap_url,
             'content' => [],
         ])));
@@ -78,7 +79,12 @@ class Show extends Component
 
     public function deleteSitemap(Sitemap $sitemap)
     {
+        $url = $sitemap->url;
+        $site = $sitemap->site;
+
         $sitemap->delete();
+
+        dispatch(new RemoveSitemapFromSite($site, $url));
 
         Toaster::success('Sitemap deleted.');
     }

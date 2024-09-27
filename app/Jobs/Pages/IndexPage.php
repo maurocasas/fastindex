@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Pages;
 
-use App\Events\Pages\Indexed;
 use App\Models\Page;
 use App\Services\GoogleClientFactory;
 use Carbon\Carbon;
@@ -12,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 
-class Index implements ShouldQueue
+class IndexPage implements ShouldQueue
 {
     use Queueable;
 
@@ -52,7 +51,7 @@ class Index implements ShouldQueue
                 ]);
 
                 if (! $indexed && $this->page->status === 'success') {
-                    event(new Indexed($this->page));
+                    $this->page->touch('indexed_at');
                 }
 
                 Log::debug(self::class, [$this->page->url, $inspectionResult]);

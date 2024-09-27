@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Http;
 
-class CheckBrokenLink implements ShouldQueue
+class CheckIfPageIsNotFound implements ShouldQueue
 {
     use Queueable;
 

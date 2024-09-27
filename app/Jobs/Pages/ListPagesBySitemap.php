@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Jobs\Sitemaps;
+namespace App\Jobs\Pages;
 
-use App\Jobs\UpdateOrInsertPage;
 use App\Models\Sitemap;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Http;
 use SimpleXMLElement;
 
-class GetSitemapPages implements ShouldQueue
+class ListPagesBySitemap implements ShouldQueue
 {
     use Queueable;
 

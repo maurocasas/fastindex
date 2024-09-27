@@ -7,7 +7,7 @@ use AshAllenDesign\FaviconFetcher\Facades\Favicon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class FetchFavicon implements ShouldQueue
+class AttemptFetchFavicon implements ShouldQueue
 {
     use Queueable;
 

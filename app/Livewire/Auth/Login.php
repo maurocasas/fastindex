@@ -26,6 +26,8 @@ class Login extends Component
             return;
         }
 
+        auth()->user()->touch('last_login_at');
+
         $this->redirectRoute('dashboard');
     }
 

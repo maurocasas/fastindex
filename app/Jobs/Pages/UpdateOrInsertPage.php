@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Pages;
 
 use App\Models\Sitemap;
 use Illuminate\Contracts\Queue\ShouldQueue;

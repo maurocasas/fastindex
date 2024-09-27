@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Jobs\Sitemaps;
+namespace App\Jobs\Sites;
 
-use App\Events\Sitemaps\Synced;
+use App\Jobs\Pages\ListPagesBySitemap;
 use App\Models\Site;
 use App\Models\Sitemap;
 use App\Services\GoogleClientFactory;
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 
-class ListSitemaps implements ShouldQueue
+class ListSitemapsBySite implements ShouldQueue
 {
     use Queueable;
 
@@ -70,9 +70,7 @@ class ListSitemaps implements ShouldQueue
                     'model_type' => Sitemap::class,
                 ]);
 
-                event(new Synced($sitemap));
-
-                dispatch(new GetSitemapPages($sitemap));
+                dispatch(new ListPagesBySitemap($sitemap));
             }
         }
 
