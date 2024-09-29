@@ -23,6 +23,11 @@ class SyncSitemap extends Command
             return;
         }
 
+        if($sitemap->busy) {
+            $this->warn('Sitemap currently busy by another task.');
+            return;
+        }
+
         $sitemap->toggleBusy(true);
 
         $xml_contents = @file_get_contents($sitemap->url);

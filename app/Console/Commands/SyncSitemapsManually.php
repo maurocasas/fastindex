@@ -6,6 +6,7 @@ use App\Models\Sitemap;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Process\Process;
 
 class SyncSitemapsManually extends Command
 {
@@ -25,11 +26,9 @@ class SyncSitemapsManually extends Command
         foreach ($sitemaps as $sitemap) {
             $progress->setMessage($sitemap->url);
 
-            Artisan::call(
-                "app:sync-sitemap {$sitemap->id}",
-                [],
-                outputBuffer: new NullOutput()
-            );
+            $command = base_path('artisan') . " app:sync-sitemap {$sitemap->id}";
+            $process = new Process([$command]);
+            $process->start();
 
             $progress->advance();
         }
