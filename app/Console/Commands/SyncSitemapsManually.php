@@ -16,7 +16,13 @@ class SyncSitemapsManually extends Command
 
     public function handle()
     {
-        foreach (Sitemap::all() as $sitemap) {
+        $sitemaps = Sitemap::all();
+
+        $progress = $this->output->createProgressBar($sitemaps->count());
+
+        foreach ($sitemaps as $sitemap) {
+            $progress->setMessage($sitemap->url);
+
             $xml_contents = @file_get_contents($sitemap->url);
 
             if (blank($xml_contents)) {
@@ -30,8 +36,13 @@ class SyncSitemapsManually extends Command
                 $this->error("Sitemap {$sitemap->id} failed to parse XML.");
             }
 
+            $pages = $this->output->createProgressBar($xml->count());
+
             foreach ($xml->url as $item) {
                 $url = (string)$item->loc;
+
+                $this->line("Processing page {$url}");
+
                 $path = Str::after($url, $sitemap->site->hostname);
 
                 DB::table('pages')
@@ -39,7 +50,11 @@ class SyncSitemapsManually extends Command
                         ['site_id' => $sitemap->site_id, 'url' => $url],
                         compact('path')
                     );
+
+                $pages->advance();
             }
+
+            $progress->advance();
         }
     }
 }
