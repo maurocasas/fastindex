@@ -58,6 +58,7 @@ class SyncSitemap extends Command
             $sitemap->toggleBusy(false);
             $this->error("Sitemap {$sitemap->id} failed to parse XML.");
             Log::error('Invalid sitemap XML', [ $this->argument('sitemap') ]);
+            return;
         }
 
         $pages = $this->output->createProgressBar($xml->count());
@@ -77,6 +78,9 @@ class SyncSitemap extends Command
 
             $pages->advance();
         }
+
+        $this->info("Sitemap {$sitemap->id} done syncing.");
+        Log::info('Finished sync', [ $this->argument('sitemap') ]);
 
         $sitemap->update([
             'checksum' => $checksum,
