@@ -67,7 +67,7 @@ class SyncSitemapsManually extends Command
             $pages = $this->output->createProgressBar($chunks->count());
 
             $chunks->each(function (Collection $chunk) use($pages) {
-                Page::upsert($chunk, ['url']);
+                Page::upsert($chunk->values(), ['url']);
                 $pages->advance();
             });
 
