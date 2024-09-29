@@ -38,38 +38,23 @@ class SyncSitemapsManually extends Command
                 $this->error("Sitemap {$sitemap->id} failed to parse XML.");
             }
 
-            $upsert = [];
+            $pages = $this->output->createProgressBar($xml->count());
 
             foreach ($xml->url as $item) {
-                $url = (string)$item->loc;
+                $url = (string) $item->loc;
 
-//                $this->line("Processing page {$url}");
+                $pages->setMessage($url);
 
                 $path = Str::after($url, $sitemap->site->hostname);
 
-                $upsert[] = [
-                    'site_id' => $sitemap->site_id,
-                    'path' => $path,
-                    'url' => $url
-                ];
+                DB::table('pages')
+                    ->updateOrInsert(
+                        ['site_id' => $sitemap->site_id, 'url' => $url],
+                        compact('path')
+                    );
 
-//                DB::table('pages')
-//                    ->updateOrInsert(
-//                        ['site_id' => $sitemap->site_id, 'url' => $url],
-//                        compact('path')
-//                    );
-
-//                $pages->advance();
-            }
-
-            $chunks = collect($upsert)->chunk(1000);
-
-            $pages = $this->output->createProgressBar($chunks->count());
-
-            $chunks->each(function (Collection $chunk) use($pages) {
-                Page::upsert($chunk->toArray(), ['url']);
                 $pages->advance();
-            });
+            }
 
             $progress->advance();
         }
