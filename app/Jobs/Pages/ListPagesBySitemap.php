@@ -49,7 +49,7 @@ class ListPagesBySitemap implements ShouldQueue
         }
 
         LazyCollection::make($pages)
-            ->chunk(500)
+            ->chunk(100)
             ->each(fn($chunk) => dispatch(new UpdateOrInsertPages($this->sitemap->site, $chunk->all())));
 
         $this->sitemap->toggleBusy(false);
