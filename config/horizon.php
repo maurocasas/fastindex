@@ -188,7 +188,7 @@ return [
             'maxProcesses' => 1,
             'maxTime' => 0,
             'maxJobs' => 0,
-            'memory' => 64,
+            'memory' => 128,
             'tries' => 1,
             'timeout' => 60,
             'nice' => 0,
@@ -199,7 +199,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'queue' => [env('REDIS_QUEUE', 'default')],
-                'maxProcesses' => 5,
+                'maxProcesses' => 3,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
