@@ -20,18 +20,18 @@ class SyncSitemap extends Command
         $sitemap = Sitemap::find($this->argument('sitemap'));
 
         if(blank($sitemap)) {
-            Log::warning("Sitemap not found", $this->argument('sitemap'));
+            Log::warning("Sitemap not found", [ $this->argument('sitemap') ]);
             $this->error("Sitemap not found.");
             return;
         }
 
         if($sitemap->busy) {
-            Log::warning("Sitemap busy!", $this->argument('sitemap'));
+            Log::warning("Sitemap busy!", [ $this->argument('sitemap') ]);
             $this->warn('Sitemap currently busy by another task.');
             return;
         }
 
-        Log::info('Syncing sitemap', $this->argument('sitemap'));
+        Log::info('Syncing sitemap', [ $this->argument('sitemap') ]);
 
         $sitemap->toggleBusy(true);
 
@@ -41,14 +41,14 @@ class SyncSitemap extends Command
 
         if ($sitemap->checksum === $checksum) {
             $this->line("{$sitemap->url} hasn't changed. Skipping.");
-            Log::info('Unchanged sitemap', $this->argument('sitemap'));
+            Log::info('Unchanged sitemap', [ $this->argument('sitemap') ]);
             return;
         }
 
         if (blank($xml_contents)) {
             $sitemap->toggleBusy(false);
             $this->error("Sitemap {$sitemap->id} failed to fetch.");
-            Log::error('Unreachable sitemap', $this->argument('sitemap'));
+            Log::error('Unreachable sitemap', [ $this->argument('sitemap') ]);
             return;
         }
 
@@ -57,7 +57,7 @@ class SyncSitemap extends Command
         } catch (Exception $exception) {
             $sitemap->toggleBusy(false);
             $this->error("Sitemap {$sitemap->id} failed to parse XML.");
-            Log::error('Invalid sitemap XML', $this->argument('sitemap'));
+            Log::error('Invalid sitemap XML', [ $this->argument('sitemap') ]);
         }
 
         $pages = $this->output->createProgressBar($xml->count());
