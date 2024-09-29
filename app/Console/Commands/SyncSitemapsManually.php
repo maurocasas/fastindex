@@ -33,6 +33,8 @@ class SyncSitemapsManually extends Command
 
             Log::debug('Dispatched sitemap sync', [$sitemap->id]);
 
+            $this->line("Dispatched sitemap sync for {$sitemap->url}");
+
             $progress->advance();
         }
 
