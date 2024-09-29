@@ -32,6 +32,14 @@ class RegisterSitemap implements ShouldQueue
             ... $this->attributes
         ]);
 
+        $checksum = md5($this->contents($this->url));
+
+        if($sitemap->checksum === $checksum) {
+            return;
+        }
+
+        $sitemap->update(compact('checksum'));
+
         if($is_index) {
             dispatch(new ProcessSitemapIndex($sitemap));
             return;
@@ -40,8 +48,13 @@ class RegisterSitemap implements ShouldQueue
         dispatch(new ListPagesBySitemap($sitemap));
     }
 
+    protected function contents(string $url): string
+    {
+        return @file_get_contents($url);
+    }
+
     protected function isSitemapIndex(string $url): bool
     {
-        return Str::contains(@file_get_contents($url), '<sitemapindex');
+        return Str::contains($this->contents($url), '<sitemapindex');
     }
 }

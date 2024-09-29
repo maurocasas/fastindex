@@ -55,7 +55,8 @@ class Sitemap extends Model
         'pending',
         'warnings',
         'errors',
-        'busy'
+        'busy',
+        'checksum',
     ];
 
     protected $casts = [
