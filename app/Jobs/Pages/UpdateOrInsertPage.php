@@ -5,6 +5,7 @@ namespace App\Jobs\Pages;
 use App\Models\Site;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class UpdateOrInsertPage implements ShouldQueue
@@ -21,9 +22,10 @@ class UpdateOrInsertPage implements ShouldQueue
         $url = $this->url;
         $path = Str::after($url, $this->site->hostname);
 
-        $this->site->pages()->updateOrCreate(compact('url'), [
-            ...compact('url'),
-            'path' => blank($path) ? '/' : $path,
-        ]);
+        DB::table('pages')
+            ->updateOrInsert(
+                ['site_id' => $this->site->id, 'url' => $url],
+                compact('path')
+            );
     }
 }

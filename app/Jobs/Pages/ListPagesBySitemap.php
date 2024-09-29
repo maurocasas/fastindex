@@ -42,15 +42,9 @@ class ListPagesBySitemap implements ShouldQueue
             return;
         }
 
-        $pages = [];
-
         foreach ($xml->url as $item) {
-            $pages[] = (string) $item->loc;
+            dispatch(new UpdateOrInsertPage($this->sitemap->site, (string) $item->loc));
         }
-
-        LazyCollection::make($pages)
-            ->chunk(100)
-            ->each(fn($chunk) => dispatch(new UpdateOrInsertPages($this->sitemap->site, $chunk->all())));
 
         $this->sitemap->toggleBusy(false);
     }
