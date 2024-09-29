@@ -2,14 +2,11 @@
 
 namespace App\Jobs\Pages;
 
-use App\Models\Page;
 use App\Models\Sitemap;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
-use Illuminate\Support\Str;
 use SimpleXMLElement;
 
 class ListPagesBySitemap implements ShouldQueue
@@ -51,29 +48,10 @@ class ListPagesBySitemap implements ShouldQueue
             $pages[] = (string) $item->loc;
         }
 
-//        LazyCollection::make($pages)
-//            ->chunk(1000)
-//            ->each(fn($chunk) => $this->upsertChunk($chunk));
-
-        $this->upsertChunk($pages);
+        LazyCollection::make($pages)
+            ->chunk(500)
+            ->each(fn($chunk) => dispatch(new UpdateOrInsertPages($this->sitemap->site, $chunk)));
 
         $this->sitemap->toggleBusy(false);
-    }
-
-    private function upsertChunk($chunk)
-    {
-        DB::transaction(function () use ($chunk) {
-            $values = $chunk->map(function ($url) {
-                $path = Str::after($url, $this->sitemap->site->hostname);
-
-                return [
-                    'site_id' => $this->sitemap->site_id,
-                    'url' => $url,
-                    'path' => blank($path) ? '/' : $path,
-                ];
-            })->toArray();
-
-            Page::upsert($values, ['url']);
-        });
     }
 }
