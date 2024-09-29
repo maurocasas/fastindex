@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Page;
 use App\Models\Sitemap;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use SimpleXMLElement;
@@ -36,23 +38,38 @@ class SyncSitemapsManually extends Command
                 $this->error("Sitemap {$sitemap->id} failed to parse XML.");
             }
 
-            $pages = $this->output->createProgressBar($xml->count());
+            $upsert = [];
 
             foreach ($xml->url as $item) {
                 $url = (string)$item->loc;
 
-                $this->line("Processing page {$url}");
+//                $this->line("Processing page {$url}");
 
                 $path = Str::after($url, $sitemap->site->hostname);
 
-                DB::table('pages')
-                    ->updateOrInsert(
-                        ['site_id' => $sitemap->site_id, 'url' => $url],
-                        compact('path')
-                    );
+                $upsert[] = [
+                    'site_id' => $sitemap->site_id,
+                    'path' => $path,
+                    'url' => $url
+                ];
 
-                $pages->advance();
+//                DB::table('pages')
+//                    ->updateOrInsert(
+//                        ['site_id' => $sitemap->site_id, 'url' => $url],
+//                        compact('path')
+//                    );
+
+//                $pages->advance();
             }
+
+            $chunks = collect($upsert)->chunk(1000);
+
+            $pages = $this->output->createProgressBar($chunks->count());
+
+            $chunks->each(function (Collection $chunk) use($pages) {
+                Page::upsert($chunk, ['url']);
+                $pages->advance();
+            });
 
             $progress->advance();
         }
