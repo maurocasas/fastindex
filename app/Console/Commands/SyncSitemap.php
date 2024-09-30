@@ -27,7 +27,9 @@ class SyncSitemap extends Command
 
         try {
             if ($sitemap->busy) {
-                throw new Exception("Sitemap busy!");
+                $this->warn("Sitemap busy!");
+                Log::warning('Sitemap busy!', [$this->argument('sitemap')]);
+                return;
             }
 
             Log::info('Syncing sitemap', [$this->argument('sitemap')]);
