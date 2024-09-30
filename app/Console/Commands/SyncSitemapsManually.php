@@ -27,12 +27,13 @@ class SyncSitemapsManually extends Command
         foreach ($sitemaps as $sitemap) {
             $progress->setMessage($sitemap->url);
 
-            $process = new Process([PHP_BINARY, " ", base_path('artisan'), " ", "app:sync-sitemap {$sitemap->id}"]);
+            $command = [PHP_BINARY, " ", base_path('artisan'), " ", "app:sync-sitemap {$sitemap->id}"];
+            $process = new Process($command);
             $process->start();
 
             Log::debug('Dispatched sitemap sync', [
                 $sitemap->id,
-                [PHP_BINARY, base_path('artisan'), " app:sync-sitemap {$sitemap->id}"],
+                $command,
                 $process->getPid()
             ]);
 
