@@ -11,11 +11,11 @@ class ListPagesBySitemap implements ShouldQueue
 {
     use Queueable;
 
-    public $timeout = 900;
+    public $timeout = 300;
 
     public function __construct(protected Sitemap $sitemap)
     {
-        //
+        $this->timeout = config('queue.connections.database.retry_after') - 100;
     }
 
     public function handle(): void
