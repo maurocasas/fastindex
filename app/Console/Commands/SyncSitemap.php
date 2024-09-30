@@ -19,72 +19,65 @@ class SyncSitemap extends Command
     {
         $sitemap = Sitemap::find($this->argument('sitemap'));
 
-        if(blank($sitemap)) {
-            Log::warning("Sitemap not found", [ $this->argument('sitemap') ]);
+        if (blank($sitemap)) {
+            Log::warning("Sitemap not found", [$this->argument('sitemap')]);
             $this->error("Sitemap not found.");
             return;
         }
 
-        if($sitemap->busy) {
-            Log::warning("Sitemap busy!", [ $this->argument('sitemap') ]);
-            $this->warn('Sitemap currently busy by another task.');
-            return;
-        }
-
-        Log::info('Syncing sitemap', [ $this->argument('sitemap') ]);
-
-        $sitemap->toggleBusy(true);
-
-        $xml_contents = @file_get_contents($sitemap->url);
-
-        $checksum = md5($xml_contents);
-
-        if ($sitemap->checksum === $checksum) {
-            $this->line("{$sitemap->url} hasn't changed. Skipping.");
-            Log::info('Unchanged sitemap', [ $this->argument('sitemap') ]);
-            return;
-        }
-
-        if (blank($xml_contents)) {
-            $sitemap->toggleBusy(false);
-            $this->error("Sitemap {$sitemap->id} failed to fetch.");
-            Log::error('Unreachable sitemap', [ $this->argument('sitemap') ]);
-            return;
-        }
-
         try {
+            if ($sitemap->busy) {
+                throw new Exception("Sitemap busy!");
+            }
+
+            Log::info('Syncing sitemap', [$this->argument('sitemap')]);
+
+            $xml_contents = @file_get_contents($sitemap->url);
+
+            $checksum = md5($xml_contents);
+
+            if ($sitemap->checksum === $checksum) {
+                $this->line("{$sitemap->url} hasn't changed. Skipping.");
+                Log::info('Unchanged sitemap', [$this->argument('sitemap')]);
+                return;
+            }
+
+            $sitemap->toggleBusy(true);
+
+            if (blank($xml_contents)) {
+                throw new Exception("Sitemap {$sitemap->id} failed to fetch.");
+            }
+
             $xml = new SimpleXMLElement($xml_contents);
+
+            $pages = $this->output->createProgressBar($xml->count());
+
+            foreach ($xml->url as $item) {
+                $url = (string)$item->loc;
+
+                $pages->setMessage($url);
+
+                $path = Str::after($url, $sitemap->site->hostname);
+
+                DB::table('pages')
+                    ->updateOrInsert(
+                        ['site_id' => $sitemap->site_id, 'url' => $url],
+                        compact('path')
+                    );
+
+                $pages->advance();
+            }
+
+            $this->info("Sitemap {$sitemap->id} done syncing.");
+
+            Log::info('Finished sync', [$this->argument('sitemap')]);
+
+            $sitemap->update(compact('checksum'));
         } catch (Exception $exception) {
-            $sitemap->toggleBusy(false);
-            $this->error("Sitemap {$sitemap->id} failed to parse XML.");
-            Log::error('Invalid sitemap XML', [ $this->argument('sitemap') ]);
-            return;
+            $this->error($exception->getMessage());
+            Log::error($exception->getMessage(), [$this->argument('sitemap')]);
         }
 
-        $pages = $this->output->createProgressBar($xml->count());
-
-        foreach ($xml->url as $item) {
-            $url = (string)$item->loc;
-
-            $pages->setMessage($url);
-
-            $path = Str::after($url, $sitemap->site->hostname);
-
-            DB::table('pages')
-                ->updateOrInsert(
-                    ['site_id' => $sitemap->site_id, 'url' => $url],
-                    compact('path')
-                );
-
-            $pages->advance();
-        }
-
-        $this->info("Sitemap {$sitemap->id} done syncing.");
-        Log::info('Finished sync', [ $this->argument('sitemap') ]);
-
-        $sitemap->update([
-            'checksum' => $checksum,
-            'busy' => false,
-        ]);
+        $sitemap->toggleBusy(false);
     }
 }
