@@ -13,13 +13,15 @@ class ListPagesBySitemap implements ShouldQueue
 
     public $timeout = 300;
 
-    public function __construct(protected Sitemap $sitemap)
+    public function __construct(protected Sitemap $sitemap, protected bool $batch = false)
     {
         $this->timeout = config('queue.connections.database.retry_after') - 100;
     }
 
     public function handle(): void
     {
-        Artisan::call("app:sync-sitemap {$this->sitemap->id}");
+        $batch = $this->batch ? "--batch" : "";
+
+        Artisan::call("app:sync-sitemap {$this->sitemap->id} {$batch}");
     }
 }

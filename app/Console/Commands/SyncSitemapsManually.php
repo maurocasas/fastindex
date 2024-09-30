@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class SyncSitemapsManually extends Command
 {
-    protected $signature = 'app:sync-sitemaps-manually';
+    protected $signature = 'app:sync-sitemaps-manually {--batch}';
     protected $description = 'Useful when working with big sitemaps';
 
     public function handle()
@@ -24,7 +24,7 @@ class SyncSitemapsManually extends Command
         foreach ($sitemaps as $sitemap) {
             $progress->setMessage($sitemap->url);
 
-            dispatch(new ListPagesBySitemap($sitemap));
+            dispatch(new ListPagesBySitemap($sitemap, $this->option('batch')));
 
             $this->line("Dispatched sitemap sync for {$sitemap->url}");
 

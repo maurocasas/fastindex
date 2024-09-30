@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Pages\UpdateOrInsertPage;
 use App\Models\Sitemap;
 use Exception;
 use Illuminate\Console\Command;
@@ -12,7 +13,7 @@ use SimpleXMLElement;
 
 class SyncSitemap extends Command
 {
-    protected $signature = 'app:sync-sitemap {sitemap}';
+    protected $signature = 'app:sync-sitemap {sitemap} {--batch}';
     protected $description = 'Useful when working with big sitemaps';
 
     public function handle()
@@ -61,18 +62,26 @@ class SyncSitemap extends Command
 
                 $path = Str::after($url, $sitemap->site->hostname);
 
-                DB::table('pages')
-                    ->updateOrInsert(
-                        ['site_id' => $sitemap->site_id, 'url' => $url],
-                        compact('path')
-                    );
+                if($this->option('batch')) {
+                    DB::table('pages')
+                        ->updateOrInsert(
+                            ['site_id' => $sitemap->site_id, 'url' => $url],
+                            compact('path')
+                        );
+                } else {
+                    dispatch(new UpdateOrInsertPage($sitemap->site, $url));
+                }
 
                 $pages->advance();
             }
 
-            $this->info("Sitemap {$sitemap->id} done syncing.");
-
-            Log::info('Finished sync', [$this->argument('sitemap')]);
+            if($this->option('batch')) {
+                $this->info("Sitemap {$sitemap->id} done syncing.");
+                Log::info('Finished sync', [$this->argument('sitemap')]);
+            } else {
+                $this->info("Sitemap {$sitemap->id} dispatched all pages for syncing.");
+                Log::info('Finished sync dispatching', [$this->argument('sitemap')]);
+            }
 
             $sitemap->update(compact('checksum'));
         } catch (Exception $exception) {
