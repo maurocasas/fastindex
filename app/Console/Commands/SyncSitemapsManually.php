@@ -2,12 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Pages\ListPagesBySitemap;
 use App\Models\Sitemap;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Process\Process;
 
 class SyncSitemapsManually extends Command
 {
@@ -27,15 +24,7 @@ class SyncSitemapsManually extends Command
         foreach ($sitemaps as $sitemap) {
             $progress->setMessage($sitemap->url);
 
-            $command = [PHP_BINARY, " ", base_path('artisan'), " ", "app:sync-sitemap {$sitemap->id}"];
-            $process = new Process($command);
-            $process->start();
-
-            Log::debug('Dispatched sitemap sync', [
-                $sitemap->id,
-                $command,
-                $process->getPid()
-            ]);
+            dispatch(new ListPagesBySitemap($sitemap));
 
             $this->line("Dispatched sitemap sync for {$sitemap->url}");
 
