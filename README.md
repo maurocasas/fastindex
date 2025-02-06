@@ -1,3 +1,9 @@
+[DEPRECATED] 
+
+Google has terminated the Indexing API thus making this project obsolete. Most companies around indexing have also shutdown.
+
+Thanks for your interest!
+
 # About the project
 
 FastIndex is an open-source and self-hostable alternative to TagParrot, Omega Indexer, URLMonitor, and similar tools. It helps your sites get crawled & indexed faster by Google Search Console.
